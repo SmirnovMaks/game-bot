@@ -13,26 +13,45 @@ const getRandomInt = function (min, max) {
 };
 
 const gameBot = function (x) {
+    let y = 10;
     const body = function () {
         let num = prompt('Угадай число от 1 до 100');
+        y--;
         if (num === null) {
             alert('Игра окончена');
+        } else if (y == 0) {
+            let loss = confirm('Попытки закончились, хотите сыграть еще?');
+            if (loss == true) {
+                gameBot();
+            } else if (loss == false) {
+                alert('Игра окончена');
+            }
         } else if (num > x) {
-            alert('Загаданное число меньше');
+            alert('Загаданное число меньше, осталось попыток ' + y);
             console.log(num);
             body();
         } else if (!isNumber(num)) {
             alert('Введи число');
+            y++;
             body();
         } else if (num < x) {
-            alert('Загаданное число больше');
+            alert('Загаданное число больше, осталось попыток ' + y);
             console.log(num);
             body();
         } else if (num == x) {
-            alert('Поздравляю, Вы угадали!!!');
+            let win = confirm('Поздравляю, Вы угадали!!! Хотели бы сыграть еще?');
+            if (win == true) {
+                gameBot();
+            } else if (win == false) {
+                alert('Игра окончена');
+            }
         }
     };
-    body();
+    if (y > 0) {
+        body();
+    } else if (y == 0) {
+        gameBot();
+    }
 };
 
 randomInt = getRandomInt(1, 100);
